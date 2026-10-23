@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "cv05" 1, "ss01" 1;
+  }
+  /* Every rupee figure in the product is tabular-lining for column scanning. */
+  .num,
+  input[type="number"] {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+@layer components {
+  /* ---- The ledger sheet: white page, hairline border, no soft shadows ---- */
+  .sheet {
+    @apply bg-sheet border border-rule rounded-sheet;
+  }
+
+  /* ---- Section heading set in Newsreader like a printed statement ---- */
+  .statement-h {
+    @apply font-serif text-ink;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- Ledger row: label · dotted leader · value (the signature element) ---- */
+  .ledger-row {
+    @apply flex items-baseline gap-3 py-2.5 text-[13.5px];
+  }
+  .ledger-row .leader {
+    flex: 1 1 auto;
+    border-bottom: 1px dotted theme("colors.rule");
+    transform: translateY(-3px);
+    min-width: 12px;
+  }
+  .ledger-row .value {
+    @apply font-mono text-ink tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ---- Ruled page: horizontal account-book lines behind content ---- */
+  .ruled {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 31px,
+      theme("colors.rule") 31px,
+      theme("colors.rule") 32px
+    );
+    background-position: 0 8px;
+  }
+
+  /* ---- Red margin rule: the stitched edge of a bahi-khata ---- */
+  .margin-rule {
+    border-left: 3px solid theme("colors.debit.DEFAULT");
+  }
+
+  /* ---- Estimate/assumption tags: ochre, never a gray whisper ---- */
+  .tag-estimate {
+    @apply inline-flex items-center gap-1 rounded-[2px] border border-ochre/40 bg-ochre-wash px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-ochre;
+  }
+  .tag-fact {
+    @apply inline-flex items-center gap-1 rounded-[2px] border border-ledger/30 bg-ledger-wash px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-ledger-deep;
+  }
+  .tag-caution {
+    @apply inline-flex items-center gap-1 rounded-[2px] border border-debit/30 bg-debit-wash px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-debit;
+  }
+
+  /* ---- Inputs: underline fields, not rounded pills ---- */
+  .field-input {
+    @apply w-full border-b border-rule bg-transparent px-0.5 py-1.5 font-mono text-[15px] text-ink outline-none transition-colors placeholder:text-muted/60;
+  }
+  .field-input:focus {
+    border-bottom-color: theme("colors.ledger.DEFAULT");
+  }
+  .field-input::-webkit-outer-spin-button,
+  .field-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sheet bg-ink px-4 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-ledger-deep disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sheet border border-rule bg-sheet px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink/40;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-sheet px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:bg-rule/50 hover:text-ink;
+  }
+
+  /* ---- Segmented control ---- */
+  .segmented {
+    @apply inline-flex rounded-sheet border border-rule bg-sheet p-0.5;
+  }
+  .segmented button {
+    @apply rounded-[2px] px-3 py-1.5 text-xs font-medium text-muted transition-colors;
+  }
+  .segmented button[aria-pressed="true"] {
+    @apply bg-ink text-paper;
+  }
+}
+
+@layer utilities {
+  .fade-in {
+    animation: fade-in 0.35s ease-out both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
+}
